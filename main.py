@@ -4,7 +4,7 @@ import gradio as gr
 import uuid
 import chromadb
 from pprint import pprint
-import spaces
+#import spaces
 import requests
 import random
 import json
