@@ -194,11 +194,11 @@ pprint(collection.get())
 
 tools = []
 
-pushover_user = os.getenv("PUSHOVER_USER")
-pushover_token = os.getenv("PUSHOVER_TOKEN")
-pushover_url = "https://api.pushover.net/1/messages.json"
+#pushover_user = os.getenv("PUSHOVER_USER")
+#pushover_token = os.getenv("PUSHOVER_TOKEN")
+#pushover_url = "https://api.pushover.net/1/messages.json"
 
-def send_notification(message : str):
+"""def send_notification(message : str):
     if pushover_user is None or pushover_token is None: # Handeling if potential missing credentials
         return "Notofication failed: Pushover not configured properly."
     payload = {"user" : pushover_user, "token" : pushover_token, "message" : message}
@@ -222,7 +222,7 @@ send_notification_function = {
 }
 
 # Add Pushover to the list of tools for LLM
-tools.append({"type" : "function", "function": send_notification_function})
+tools.append({"type" : "function", "function": send_notification_function})"""
 
 def dice_roll():
     result =  random.randint(1, 6)
@@ -254,10 +254,11 @@ def handle_tool_call(tool_calls):
         # print(f'Calling function {function_name}") # for future debugging ;)
 
         # Route to the appropriate function based on function name
-        if function_name == "send_notification":
-            # Actually send the notification, i.e. call the tool
-            content = send_notification(args["message"])
-        elif function_name == "dice_roll":
+        #if function_name == "send_notification":
+        #    # Actually send the notification, i.e. call the tool
+        #    content = send_notification(args["message"])
+        #elif function_name == "dice_roll":
+        if function_name == "dice_roll":
             content = f"Rolled: {dice_roll()}"
         #elif function_name == "insert_function_name"
         #   content = insert_function_name_2(arg["messahege"])
@@ -292,7 +293,7 @@ Always use the send_notification tool to alert the real Yuan-Hung  - do this aut
 # Main response Function
 #----------------------------------------------
 
-@spaces.GPU
+# @spaces.GPU
 def respond_ai(message, history):
     #RAG: Embed the query using the same model we used for the chunks to ensure compatibility
     response = client.embeddings.create(
@@ -357,7 +358,7 @@ def respond_ai(message, history):
 demo = gr.ChatInterface(
     fn = respond_ai, 
     title= "Yuan-Hung's Digital Twin",
-    chatbot= gr.Chatbot(avatar_images=(None, "yuan.jpeg")),
+    # chatbot= gr.Chatbot(avatar_images=(None, "yuan.jpeg")),
     description = "Chat with an AI version of Yuan-Hung Chien. Ask about his experience, projects, or just say hi", 
     examples = ["What's your background", "Data Science/Cmomputational biology/AI Engineering experience"])
 demo.launch()
